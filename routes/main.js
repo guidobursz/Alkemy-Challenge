@@ -5,5 +5,10 @@ router.get('/',(req,res)=> {res.send('main')});
 
 //For login & register
 router.use('/auth',require('./auth'));
+//For displaying characters
+router.use('/api/characters', require('./characters'))
+
+//For bulk insert
+router.use('/bulk', require('./bulkinsert'));
 
 module.exports = router;

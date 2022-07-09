@@ -9,6 +9,7 @@ const loginPOST = async (req,res) => {
     //Get data from body
     let email = req.body.email;
     let password = req.body.password;
+    //if (!req.body.password){password = 'nono'}
 
     const search = await User.findOne({
         where: {
@@ -19,9 +20,16 @@ const loginPOST = async (req,res) => {
     if (search === null) {
         res.send('email not found');
     } else {
-        res.send('email found')
+        //Compare the password with the hashed at DB
+        let hashedPassword = search.password;
+        let passcompared = bcrypt.compareSync(password, hashedPassword);
+
+        if (passcompared === true){
+            res.send('FALTA: crear y almacenar jwt para validar login en el acceso al resto de rutas')
+        } else {
+            res.send('Bad password')
+        }
     }
 }
-
 
 module.exports = {loginGET, loginPOST}

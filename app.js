@@ -11,11 +11,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 
-
-
 app.use('/', require('./routes/main'));
-
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, ()=> {

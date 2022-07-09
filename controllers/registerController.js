@@ -10,7 +10,7 @@ const registerPOST = async (req,res) => {
     const name = req.body.name;
     const lastname = req.body.lastname;
     const email = req.body.email;
-    const password = req.body.email;
+    const password = req.body.password;
 
     try {
         //First, hash password
