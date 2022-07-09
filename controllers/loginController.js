@@ -1,5 +1,8 @@
 const User = require('../db/models/User')
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+
 
 const loginGET = (req,res) => {
     res.send('GET -> login form: need send body fields: email,password')
@@ -25,7 +28,13 @@ const loginPOST = async (req,res) => {
         let passcompared = bcrypt.compareSync(password, hashedPassword);
 
         if (passcompared === true){
-            res.send('FALTA: crear y almacenar jwt para validar login en el acceso al resto de rutas')
+            //Sign token for auth, with user id/name/auth
+            var token = jwt.sign({ 
+                id: search.id,
+                name: search.name,
+                auth: search.auth
+            }, process.env.JWT_CODE);
+            res.send(`JWT = ${token}`)
         } else {
             res.send('Bad password')
         }
