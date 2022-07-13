@@ -25,7 +25,11 @@ const insertCharacter = async (req,res) => {
 const insertMovie = async (req,res) => {
     let movies = [
         {imageMovie: "bulk", title: "Mickey el divertido", created_at: 1998, score: 5},
-        {imageMovie: "bulk", title: "Donald el acuatico", created_at: 1999, score: 5}
+        {imageMovie: "bulk2", title: "Donald el acuatico", created_at: 1999, score: 5},
+        {imageMovie: "bulk3", title: "Daisy la pata", created_at: 2005, score: 3},
+        {imageMovie: "bulk4", title: "Pluto el can", created_at: 2000, score: 4},
+        {imageMovie: "bulk5", title: "Las travesura de mickey", created_at: 2008, score: 4},
+        {imageMovie: "bulk6", title: "Donald y los amigos", created_at: 2004, score: 3}
     ];
 
     Movie.bulkCreate(movies);
