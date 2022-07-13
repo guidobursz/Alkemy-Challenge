@@ -2,7 +2,6 @@ const Movie = require('../db/models/Movie');
 //For query
 const { Op, where } = require("sequelize");
 
-
 //Display characters. /api/movies - with queries
 const moviesIndex = async (req,res) => {
 /* 
@@ -42,14 +41,30 @@ const movieCreateGET = (req,res) => {
 //POST -> Create new movie /api/movie/create
 const movieCreatePOST = async (req,res) => {
     //Para crear nuevo character, necesito: ImageCharacter, name, age, weight, history
-    let imageMovie = req.body.image;
+    let imageMovie = req.file.imagemovie;
+    let imageMovieName = req.file.filename;
     let title = req.body.title;
     let created_at = req.body.createdat;
     let score = req.body.score;
+    console.log(req.file)
+    /* 
+    {
+  fieldname: 'imagemovie',
+  originalname: 'Fantasia-Disney.jpg',
+  encoding: '7bit',
+  mimetype: 'image/jpeg',
+  destination: '/home/gmb/Documents/GitHub/Alkemy-Challenge/tools/../uploads/pictures',
+  filename: 'movie-1657674944998.jpg',
+  path: '/home/gmb/Documents/GitHub/Alkemy-Challenge/uploads/pictures/movie-1657674944998.jpg',
+  size: 80119
+}
+
+    */
+    //res.json({imageMovie, title, created_at, score})
 
     //Create new character & save in DB.
     let newMovie = await Movie.create({
-        imageMovie, title, created_at, score
+        imageMovie: imageMovieName, title, created_at, score
     }).then(res.json({'New Character': 'OK', imageMovie, title, created_at, score})
     ).catch((e)=> res.send(e))
 
