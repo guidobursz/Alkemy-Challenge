@@ -38,6 +38,7 @@ const storageCharacter = multer.diskStorage({
 
 
 const uploadMovieMiddleware = multer({ storage: storageMovie });
-//const uploadCharacterMiddleware = multer({ storage: storageCharacter });
+const uploadCharacterMiddleware = multer({ storage: storageCharacter });
 
 module.exports = uploadMovieMiddleware;
+module.exports = uploadCharacterMiddleware;

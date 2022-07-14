@@ -72,18 +72,25 @@ const characterCreateGET = (req,res) => {
 };
 //POST -> Create new character /api/character/create
 const characterCreatePOST = async (req,res) => {
-    //Para crear nuevo character, necesito: ImageCharacter, name, age, weight, history
-    let imageCharacter = req.body.image;
+    //Need inputs: ImageCharacter, name, age, weight, history  // Input name for character image upload = imagecharacter
+    let imageCharacterName = req.file.filename;
     let name = req.body.name;
     let age = req.body.age;
     let weight = req.body.weight;
     let history = req.body.history;
 
+    console.log(req.file);
+
     //Create new character & save in DB.
-    let newCharacter = Character.create({
-        imageCharacter,name,age,weight,history
-    }).then(res.json({'New Character': 'OK', imageCharacter,name,age,weight,history})
-    ).catch((e)=> res.send(e))
+    let newCharacter = await Character.create({
+        imageCharacter: imageCharacterName,
+        name,
+        age,
+        weight,
+        history
+    }).then(res.json({'New Character': 'OK', name,age,weight,history})
+    )
+    .catch((e)=> res.send(e))
 
 };
 
