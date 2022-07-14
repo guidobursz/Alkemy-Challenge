@@ -1,4 +1,6 @@
 const Movie = require('../db/models/Movie');
+//Associations
+const Associations = require('../db/associations')
 //For query
 const { Op, where } = require("sequelize");
 
