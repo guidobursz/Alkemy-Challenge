@@ -87,7 +87,7 @@ const characterCreatePOST = async (req,res) => {
     let history = req.body.history;
 
     console.log(req.file);
-
+    
     //Create new character & save in DB.
     let newCharacter = await Character.create({
         imageCharacter: imageCharacterName,

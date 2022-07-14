@@ -12,7 +12,7 @@ const {
     } = require('../controllers/charactersController');
 
 //Middleware for image
-const uploadCharacterMiddleware = require("../tools/uploadImageMovie")
+const uploadCharacterImage = require("../tools/uploadImageCharacter")
 
 //Display characters
 router.get('/', characterIndex)
@@ -21,9 +21,9 @@ router.get('/:id/info', characterInfoGET)
 //Create new character
     router.get('/create',characterCreateGET)
     //POST
-    router.post('/create', uploadCharacterMiddleware.single('imagecharacter'), characterCreatePOST)
+    router.post('/create', uploadCharacterImage.single('image_character'), characterCreatePOST)
 // Mod a character
-router.patch('/:id/edit', uploadCharacterMiddleware.single('imagecharacter'), characterEditPATCH)
+router.patch('/:id/edit', uploadCharacterImage.single('image_character'), characterEditPATCH)
 // Eliminar a character
 router.delete('/:id/delete', characterDELETE)
 
