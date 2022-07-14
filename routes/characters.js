@@ -23,7 +23,7 @@ router.get('/:id/info', characterInfoGET)
     //POST
     router.post('/create', uploadCharacterMiddleware.single('imagecharacter'), characterCreatePOST)
 // Mod a character
-router.patch('/:id/edit', characterEditPATCH)
+router.patch('/:id/edit', uploadCharacterMiddleware.single('imagecharacter'), characterEditPATCH)
 // Eliminar a character
 router.delete('/:id/delete', characterDELETE)
 

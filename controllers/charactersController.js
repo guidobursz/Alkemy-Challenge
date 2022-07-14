@@ -104,9 +104,18 @@ const characterEditPATCH = async (req,res) => {
         let newAge = req.body.age;
         let newWeight = req.body.weight;
         let newHistory = req.body.history;
+        let imageCharacterName = undefined;
+    
+        // Check if theres a req file upload, if not value keeps undefined & get no upgrade, if it has value will be the image name
+    if(!req.file){
+        console.log('no req file')
+    }else if (req.file != undefined){
+        console.log('Hay req file')
+        imageCharacterName = req.file.filename
+    }
 
-    //Check if all is undefined
-    if (newName == undefined && newAge == undefined && newWeight == undefined && newHistory == undefined) {
+    //Check if all is undefined                                                                                    
+    if (newName == undefined && newAge == undefined && newWeight == undefined && newHistory == undefined && imageCharacterName == undefined) {
         res.send(`Nothing to change in character id: ${req.params.id}`)
     } else {
                 //Check undefined values, if is not undefined, will update
@@ -140,6 +149,15 @@ const characterEditPATCH = async (req,res) => {
                 if (newHistory != undefined){
                         let updateHistory = await Character.update({
                             history: newHistory
+                        }, {where: {
+                                id: characterId
+                            }
+                        })
+                        //res.send('Complete update')
+                    }
+                    if (imageCharacterName != undefined){
+                        let updateProfilePic = await Character.update({
+                            imageCharacter: imageCharacterName
                         }, {where: {
                                 id: characterId
                             }
