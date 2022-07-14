@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = require('../dbconnect');
 
 class Genre extends Model {}
-
+//name , image
 Genre.init({
     name: {
     type: DataTypes.STRING,
@@ -16,7 +16,8 @@ Genre.init({
 }, {
     // Other model options go here
     sequelize, // We need to pass the connection instance
-    modelName: 'Genre' // We need to choose the model name
+    modelName: 'Genre', // We need to choose the model name
+    timestamps: false
 });
 
 module.exports = Genre;

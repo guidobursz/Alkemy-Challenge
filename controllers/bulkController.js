@@ -1,6 +1,7 @@
 const User = require('../db/models/User');
 const Character = require('../db/models/Character');
 const Movie = require('../db/models/Movie');
+const Genre = require('../db/models/Genre');
 
 const insertUser = async (req,res) => {
     let users = [
@@ -35,5 +36,30 @@ const insertMovie = async (req,res) => {
     Movie.bulkCreate(movies);
     res.send('Bulk movies created')
 }
+//name , image
+const insertGenres = async (req,res) => {
+    let genres = [
+        {name: "Action", image: "Mickey el divertido"},
+        {name: "Adventure", image: "Mickey el divertido"},
+        {name: "Christmas", image: "Mickey el divertido"},
+        {name: "Comedy", image: "Mickey el divertido"},
+        {name: "Documentary", image: "Mickey el divertido"},
+        {name: "Dog", image: "Mickey el divertido"},
+        {name: "Drama", image: "Mickey el divertido"},
+        {name: "Fantasy", image: "Mickey el divertido"},
+        {name: "History", image: "Mickey el divertido"},
+        {name: "Musical", image: "Mickey el divertido"},
+        {name: "Mystery", image: "Mickey el divertido"},
+        {name: "Princess", image: "Mickey el divertido"},
+        {name: "Romantic", image: "Mickey el divertido"},
+        {name: "Sports", image: "Mickey el divertido"},
+        {name: "Halloween", image: "Mickey el divertido"}
 
-module.exports = {insertUser,insertCharacter,insertMovie}
+    ];
+
+    Genre.bulkCreate(genres);
+    res.send('Bulk movies created')
+}
+
+
+module.exports = {insertUser,insertCharacter,insertMovie, insertGenres}
