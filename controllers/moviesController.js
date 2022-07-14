@@ -1,8 +1,11 @@
 const Movie = require('../db/models/Movie');
 //Associations
 const Associations = require('../db/associations')
+const Genre = require('../db/models/Genre');
+const Character = require('../db/models/Character');
 //For query
 const { Op, where } = require("sequelize");
+
 
 //Display characters. /api/movies - with queries
 const moviesIndex = async (req,res) => {
@@ -43,7 +46,6 @@ const movieCreateGET = (req,res) => {
 //POST -> Create new movie /api/movie/create
 const movieCreatePOST = async (req,res) => {
     //Para crear nuevo character, necesito: ImageCharacter, name, age, weight, history
-    let imageMovie = req.file.imagemovie;
     let imageMovieName = req.file.filename;
     let title = req.body.title;
     let created_at = req.body.createdat;
@@ -51,25 +53,25 @@ const movieCreatePOST = async (req,res) => {
     console.log(req.file)
     /* 
     {
-  fieldname: 'imagemovie',
-  originalname: 'Fantasia-Disney.jpg',
-  encoding: '7bit',
-  mimetype: 'image/jpeg',
-  destination: '/home/gmb/Documents/GitHub/Alkemy-Challenge/tools/../uploads/pictures',
-  filename: 'movie-1657674944998.jpg',
-  path: '/home/gmb/Documents/GitHub/Alkemy-Challenge/uploads/pictures/movie-1657674944998.jpg',
-  size: 80119
-}
+        fieldname: 'imagemovie',
+        originalname: 'Fantasia-Disney.jpg',
+        encoding: '7bit',
+        mimetype: 'image/jpeg',
+        destination: '/home/gmb/Documents/GitHub/Alkemy-Challenge/tools/../uploads/pictures',
+        filename: 'movie-1657674944998.jpg',
+        path: '/home/gmb/Documents/GitHub/Alkemy-Challenge/uploads/pictures/movie-1657674944998.jpg',
+        size: 80119
+    }
 
     */
-    //res.json({imageMovie, title, created_at, score})
-
     //Create new character & save in DB.
     let newMovie = await Movie.create({
-        imageMovie: imageMovieName, title, created_at, score
-    }).then(res.json({'New Character': 'OK', imageMovie, title, created_at, score})
-    ).catch((e)=> res.send(e))
-
+        imageMovie: imageMovieName,
+        title,
+        created_at,
+        score})
+            .then(res.json({'New Character': 'OK', "Image:": imageMovieName, title, created_at, score})
+            )
 };
 
 //PATCH => edit a movie. /api/movies/:id/edit
@@ -157,17 +159,22 @@ const movieDELETE = async (req, res) => {
 
 //Display movie info by ID. /api/movies/:id/info
 const movieInfoGET = async (req,res) => {
-/* 
-8. Detalle de Película / Serie con sus personajes
-Devolverá todos los campos de la película o serie junto a los personajes asociados a la misma
-*/
 
     if (req.params.id != undefined){
         // req.params devuelve string, lo paso a number
         let movieId = Number(req.params.id);
     
         //Get movie info
-        let movieInfo = await Movie.findOne({ where: { id: movieId } })
+        let movieInfo = await Movie.findOne({
+            attributes: ['id','title', 'imageMovie', 'created_at', 'score'],
+            include: [
+                Genre,
+                {
+                    model: Character,
+                    attributes: ['id','imageCharacter','name']
+                }],
+            where: { id: movieId } 
+        })
         //Check if search is null
             if (movieInfo === null) {
                 res.send('No movie found')
@@ -179,7 +186,5 @@ Devolverá todos los campos de la película o serie junto a los personajes asoci
     }
 
 };
-
-
 
 module.exports = {moviesIndex, movieCreateGET, movieCreatePOST, movieEditPATCH, movieDELETE, movieInfoGET};

@@ -1,26 +1,31 @@
 const Character = require('../db/models/Character');
+//Associations
+const Associations = require('../db/associations')
+const Genre = require('../db/models/Genre');
+const Movie = require('../db/models/Movie');
 //For query
 const { Op, where } = require("sequelize");
 const { findOne } = require('../db/models/Character');
 
 //Display characters. /api/character
 const characterIndex = async (req,res) => {
-/*
-Búsqueda de Personajes
-Deberá permitir buscar por nombre, y filtrar por edad, peso o películas/series en las que participó.
-Para especificar el término de búsqueda o filtros se deberán enviar como parámetros de query:
-● GET /characters?name=nombre
-● GET /characters?age=edad
-● GET /characters?movies=idMovie
-*/
+
     //Define params for filter
     let namefilter = req.query.name || "";
     let agefilter = req.query.age || "";
     let weightfilter = req.query.weight || "";
+    let moviesfilter = req.query.moviesinfo || "";
     //falta filtro para peliculas.
 
     const characters = await Character.findAll({
         attributes: ['imageCharacter', 'name'],
+        include: {
+            model: Movie,
+            attributes: ['id','title'],
+            where: {
+                title: {[Op.substring]: `${moviesfilter}`}
+            }
+        },
         where: {
             name: {
                 [Op.substring]: `${namefilter}`,     // LIKE '%hat%'
@@ -41,18 +46,20 @@ Para especificar el término de búsqueda o filtros se deberán enviar como par�
 
 //Display character info by ID. /api/character/:id/info
 const characterInfoGET = async (req,res) => {
-    /*    En el detalle deberán listarse todos los atributos del personaje, como así también sus películas o
-series relacionadas.
-
-FALTA: mostrar las peliculas en las que figura
- */
-
     if (req.params.id != undefined){
         // req.params devuelve string, lo paso a number
         let characterId = Number(req.params.id);
     
-        //Get character info
-        let characterInfo = await Character.findOne({ where: { id: characterId } })
+        //Get character info          //Moviescharacters CHEQUERA COMO SACARLO DE LA RESPUESTA
+        let characterInfo = await Character.findOne({
+                attributes: ['id', 'name', 'age', 'weight', 'history'],
+                include: {
+                            model: Movie,
+                            include: Genre,
+                            attributes: ['id', 'title']
+                    },
+                where: { id: characterId } 
+            })
         //Check if search is null
             if (characterInfo === null) {
                 res.send('No character found')
