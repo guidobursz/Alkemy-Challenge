@@ -23,7 +23,7 @@ router.get('/:id/info', movieInfoGET)
     //POST
     router.post('/create', uploadMovieMiddleware.single('imagemovie'), movieCreatePOST)
 // Mod a character
-router.patch('/:id/edit', movieEditPATCH)
+router.patch('/:id/edit', uploadMovieMiddleware.single('imagemovie'), movieEditPATCH)
 // Eliminar a character
 router.delete('/:id/delete', movieDELETE)
 

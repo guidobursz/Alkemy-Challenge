@@ -80,8 +80,19 @@ const movieEditPATCH = async (req,res) => {
         let newCreatedAt = req.body.createdat;
         let newscore = req.body.score;
 
+        let imageMovieName = undefined;
+    
+        // Check if theres a req file upload, if not value keeps undefined & get no upgrade, if it has value will be the image name
+    if(!req.file){
+        console.log('no req file')
+    }else if (req.file != undefined){
+        console.log('Hay req file')
+        imageMovieName = req.file.filename
+    }
+
+
     //Check if all is undefined
-    if (newTitle == undefined && newCreatedAt == undefined && newscore == undefined) {
+    if (newTitle == undefined && newCreatedAt == undefined && newscore == undefined && imageCharacterName == undefined) {
         res.send(`Nothing to change in movie id: ${req.params.id}`)
     } else {
                 //Check undefined values, if is not undefined, will update
@@ -112,6 +123,15 @@ const movieEditPATCH = async (req,res) => {
                         })
                         //res.send('Complete update')
                     }
+                if (imageMovieName != undefined){
+                    let updateProfilePic = await Movie.update({
+                        imageMovie: imageMovieName
+                    }, {where: {
+                            id: movieId
+                        }
+                    })
+                    //res.send('Complete update')
+                }
 
         res.send('Movie updated')
     }
