@@ -13,8 +13,16 @@ const checkJWT = (req, res, next) => {
         //check if token is right
         try {
             let tokenData = jwt.verify(tokenCode, process.env.JWT_CODE);
+
             console.log('tokenData, checkJWT middleware: ', tokenData)
-            next()
+            //tokenData, checkJWT middleware:  { id: 11, name: 'Guido Manuel', auth: true, iat: 1658006192 }
+
+            if(tokenData.auth === true){
+                console.log('User con auth true')
+                next()
+            } else{
+                res.send('User has no auth')
+            }
         } catch (error) {
             res.json({error})
         }

@@ -12,7 +12,7 @@ router.use('/auth',require('./auth'));
 //For displaying characters
 router.use('/api/characters', checkJWT,require('./characters'))
 //For displaying movies
-router.use('/api/movies', require('./movies'))
+router.use('/api/movies', checkJWT, require('./movies'))
 
 //For bulk insert
 router.use('/bulk', require('./bulkinsert'));
