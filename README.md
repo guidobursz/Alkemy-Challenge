@@ -1,6 +1,18 @@
 # Alkemy-Challenge
  Backend Node alkemy challenge
 
+## .env
+PORT =  x
+
+DB_DATABASE = x  
+DB_USERNAME = x  
+DB_PASSWORD = x  
+DB_HOST = x  
+
+JWT_CODE = x  
+
+SENDGRID_API_KEY='x'   
+
 
 ## Endpoints:
 
