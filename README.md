@@ -7,27 +7,30 @@
 ### Register & login:
     localhost:3000/auth/login  
     localhost:3000/auth/register
-
-### All Character info (GET)  
+    
+### CHARACTERS
+##### All Character info (GET)  
     localhost:3000/api/characters
-### One character info (GET)  
+##### One character info (GET)  
     localhost:3000/api/characters/:id/info
-### Create character (POST)  
+##### Create character (POST)  
     localhost:3000/api/characters/create
-### Update character (patch)  
+##### Update character (patch)  
     localhost:3000/api/characters/:id/edit
-### Delete character (DELETE)  
+##### Delete character (DELETE)  
     localhost:3000/api/characters/:id/delete
 
-### All movie info (GET)  
+
+### MOVIES
+##### All movie info (GET)  
     localhost:3000/api/movies
-### One movie info (GET)  
+##### One movie info (GET)  
     localhost:3000/api/movies/:id/info
-### Create movie (POST)  
+##### Create movie (POST)  
     localhost:3000/api/movies/create
-### Update movie (patch)  
+##### Update movie (patch)  
     localhost:3000/api/movies/:id/edit
-### Delete movie (DELETE)  
+##### Delete movie (DELETE)  
     localhost:3000/api/movies/:id/delete
 
 
