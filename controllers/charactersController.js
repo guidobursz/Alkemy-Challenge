@@ -15,33 +15,54 @@ const characterIndex = async (req,res) => {
     let agefilter = req.query.age || "";
     let weightfilter = req.query.weight || "";
     let moviesfilter = req.query.moviesinfo || "";
+
     //falta filtro para peliculas.
+    //si no tiene filtro de pelicula, hago un query findAll sin incluir el modelo, para que me figure si tengo un pj sin pelicula asociada
 
-    const characters = await Character.findAll({
-        attributes: ['imageCharacter', 'name'],
-        include: {
-            model: Movie,
-            attributes: ['id','title'],
+    if(!req.query.moviesinfo){
+        console.log('SIN info de movies')
+        const characters = await Character.findAll({
+            attributes: ['imageCharacter', 'name'],
             where: {
-                title: {[Op.substring]: `${moviesfilter}`}
+                name: {
+                    [Op.substring]: `${namefilter}`,     // LIKE '%hat%'
+                },
+                age: {
+                    [Op.substring]: `${agefilter}`
+                },
+                weight: {
+                    [Op.substring]: `${weightfilter}`
+                }
             }
-        },
-        where: {
-            name: {
-                [Op.substring]: `${namefilter}`,     // LIKE '%hat%'
+        })
+        res.json({characters})
+    } else {
+        console.log('con info de movies')
+        const characters = await Character.findAll({
+            attributes: ['imageCharacter', 'name'],
+            include: {
+                model: Movie,
+                attributes: ['id','title'],
+                where: {
+                    title: {[Op.substring]: `${moviesfilter}`}
+                }
             },
-            age: {
-                [Op.substring]: `${agefilter}`
-            },
-            weight: {
-                [Op.substring]: `${weightfilter}`
+            where: {
+                name: {
+                    [Op.substring]: `${namefilter}`,     // LIKE '%hat%'
+                },
+                age: {
+                    [Op.substring]: `${agefilter}`
+                },
+                weight: {
+                    [Op.substring]: `${weightfilter}`
+                }
             }
-        }
-    });
-    res.json({characters})
+        });
+        res.json({characters})
+    }
+    
 
-    //FALTA:
-        //query por pelis asociadas
 };
 
 //Display character info by ID. /api/character/:id/info
